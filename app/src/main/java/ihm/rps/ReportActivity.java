@@ -1,39 +1,67 @@
 package ihm.rps;
 
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
-public class ReportActivity extends Activity {
+public class ReportActivity extends AppCompatActivity {
 
-    boolean status = false;
-    Button bn;
+    static final int REQUEST_IMAGE_CAPTURE = 10;
+    ImageView mImageView;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
 
-        bn = (Button) findViewById(R.id.bn);
+        mImageView = (ImageView) findViewById(R.id.imageView);
 
-        bn.setOnClickListener(new View.OnClickListener() {
 
+
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                if (!status) {
-                    FragmentTwo bf = new FragmentTwo();
-
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, ).commit();
-
-
-                }
+            public void onClick(View view) {
+                btnPhotoClicked(view);
             }
         });
     }
+
+
+
+
+
+    public void btnPhotoClicked(View v) {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                Bitmap cameraImage = (Bitmap) data.getExtras().get("data");
+                mImageView.setImageBitmap(cameraImage);
+            }
+        }
+    }
+
+
+
+
+
 }
