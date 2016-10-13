@@ -15,7 +15,7 @@ public class ReportActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 10;
     ImageView mImageView;
-
+    Button btValider;
 
 
 
@@ -26,7 +26,14 @@ public class ReportActivity extends AppCompatActivity {
 
         mImageView = (ImageView) findViewById(R.id.imageView);
 
+        btValider = (Button) findViewById(R.id.bt_valider);
+        btValider.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ReportActivity.this, MainActivity.class));
+            }
+        });
 
 
 
