@@ -1,42 +1,25 @@
 package ihm.rps;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-
-    Button btNext;
-    EditText tv_heure, tv_nom, tv_categorie, tv_suivant;
+public class TestActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        /*btNext = (Button) findViewById(R.id.bt_terminee);
-        btNext.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, TestActivity.class));
-            }
-        });*/
-
+        setContentView(R.layout.activity_test);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -51,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         /*tv_heure = (EditText) findViewById(R.id.tv_heure);
         tv_heure.setEnabled(false);*/
     }
+
 
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
@@ -108,4 +92,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
