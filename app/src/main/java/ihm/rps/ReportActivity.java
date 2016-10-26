@@ -31,7 +31,11 @@ public class ReportActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ReportActivity.this, MainActivity.class));
+                //startActivity(new Intent(ReportActivity.this, MainActivity.class));
+                if (TechnicienContentFragment.interventions.size() - 1 > TechnicienContentFragment.indiceCourant) {
+                    TechnicienContentFragment.indiceCourant++;
+                }
+                finish();
             }
         });
 

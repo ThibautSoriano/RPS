@@ -34,15 +34,6 @@
         android:id="@+id/fragment_container"
         android:background="#b0e0e6">
 
-        <Button
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:text="Intervention terminée"
-            android:id="@+id/bt_terminee"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="20dp" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,19 +45,7 @@
             android:id="@+id/tv_heure"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Machine à laver"
-            android:ems="10"
-            android:id="@+id/tv_categorie"
-            android:layout_marginBottom="31dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:layout_above="@+id/bt_terminee"
-            android:layout_alignStart="@+id/tv_heure" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,10 +54,30 @@
             android:text="M. DUPONT"
             android:ems="10"
             android:id="@+id/tv_nom"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:layout_marginTop="30dp"
             android:layout_below="@+id/tv_heure"
             android:layout_alignStart="@+id/tv_heure" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Machine à laver"
+            android:ems="10"
+            android:id="@+id/tv_categorie"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_centerVertical="true"
+            android:layout_alignStart="@+id/tv_nom" />
+
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Intervention terminée"
+            android:id="@+id/bt_terminee"
+            android:layout_below="@+id/tv_categorie"
+            android:layout_alignStart="@+id/tv_categorie"
+            android:layout_marginTop="33dp" />
     </RelativeLayout>
 
     <RelativeLayout

@@ -1,7 +1,14 @@
 package ihm.rps;
 
-import android.content.Intent;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,9 +16,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -20,7 +27,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btNext;
+
     EditText tv_heure, tv_nom, tv_categorie, tv_suivant;
 
     @Override
@@ -28,14 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*btNext = (Button) findViewById(R.id.bt_terminee);
-        btNext.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, TestActivity.class));
-            }
-        });*/
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -44,8 +44,20 @@ public class MainActivity extends AppCompatActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         // Set Tabs inside Toolbar
-        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        final TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
+        String hadaccord = getCurrentSsid(getApplicationContext());
+        if (!"\"Unice-HotSpot\"".equals(getCurrentSsid(getApplicationContext()))) {
+            new Handler().postDelayed(
+                    new Runnable(){
+                        @Override
+                        public void run() {
+                            tabs.getTabAt(1).select();
+                        }
+                    }, 100);
+        }
+
 
 
         /*tv_heure = (EditText) findViewById(R.id.tv_heure);
@@ -55,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ListContentFragment(), "List");
-        adapter.addFragment(new CardContentFragment(), "Card");
+        adapter.addFragment(new AdminContentFragment(), "Administratif");
+        adapter.addFragment(new TechnicienContentFragment(), "Intervention");
         viewPager.setAdapter(adapter);
     }
 
@@ -107,5 +119,53 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public String getCurrentSsid(Context context) {
+
+
+        String ssid = null;
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (networkInfo.isConnected()) {
+            final WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            final WifiInfo connectionInfo = wifiManager.getConnectionInfo();
+            if (connectionInfo != null && !(connectionInfo.getSSID().equals(""))) {
+                //if (connectionInfo != null && !StringUtil.isBlank(connectionInfo.getSSID())) {
+                ssid = connectionInfo.getSSID();
+            }
+            // Get WiFi status MARAKANA
+            WifiInfo info = wifiManager.getConnectionInfo();
+            String textStatus = "";
+            textStatus += "\n\nWiFi Status: " + info.toString();
+            String BSSID = info.getBSSID();
+            String MAC = info.getMacAddress();
+
+            List<ScanResult> results = wifiManager.getScanResults();
+            ScanResult bestSignal = null;
+            int count = 1;
+            String etWifiList = "";
+            for (ScanResult result : results) {
+                etWifiList += count++ + ". " + result.SSID + " : " + result.level + "\n" +
+                        result.BSSID + "\n" + result.capabilities +"\n" +
+                        "\n=======================\n";
+            }
+            Log.d("MyApp", "from SO: \n"+etWifiList);
+
+            // List stored networks
+            List<WifiConfiguration> configs = wifiManager.getConfiguredNetworks();
+            for (WifiConfiguration config : configs) {
+                textStatus+= "\n\n" + config.toString();
+            }
+            Log.d("MyApp","from marakana: \n"+textStatus);
+        }
+        return ssid;
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+
     }
 }
